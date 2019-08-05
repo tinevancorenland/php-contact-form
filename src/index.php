@@ -19,6 +19,12 @@ if($_POST) {
     cleanupName($name);
     cleanupEmail($email);
     cleanupMessage($message);
+
+    if(mail("some@from.address", "contact form", $message)) {
+        echo "great succes";
+    } else {
+        echo "wrong wrong wrong";
+    }
 }
 
 function cleanupName($name) {
@@ -39,7 +45,7 @@ function cleanupEmail($email) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo "email is valid";
         } else {
-         echo "email is not valid";
+            echo "email is not valid";
         }
     }
 }
