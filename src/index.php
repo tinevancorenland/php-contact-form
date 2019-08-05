@@ -1,63 +1,3 @@
-<?php
-
-if($_POST) {
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $message = $_POST["message"];
-    $formcontent = "From: $name \n Email: $email \n Message: $message";
-    $recipient = "tinevancorenland@gmail.com";
-    $subject = "Contact Form - $name";
-
-    cleanupName($name);
-    cleanupEmail($email);
-    cleanupMessage($message);
-
-    // sendMail();
-}
-
-function cleanupName($name) {
-    if($name !="") {
-        $name = filter_var($name, FILTER_SANITIZE_STRING);
-        echo "thank you for filling in your name";
-    } else {
-        echo "please fill in your name";
-    }
-}
-
-function cleanupEmail($email) {
-    if($email != "") {
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        echo "email is clean";
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "email is valid";
-        } else {
-         echo "email is not valid";
-        }
-    } else {
-        echo "please fill in your email";
-    }
-}
-
-function cleanupMessage($message) {
-    if($message != "") {
-        $message = filter_var($message, FILTER_SANITIZE_STRING);
-        echo "message is clean";
-    } else {
-        echo "please fill in your message";
-    }
-}
-
-// function sendMail(){
-//     if(mail("tinevancorenland@gmail.com", "contact form", $message)) {
-//         echo "thank you for your message";
-//     } else {
-//         echo "try again and again and again";
-//     }
-// }
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,6 +8,52 @@ function cleanupMessage($message) {
     <title>contact form</title>
 </head>
 <body>
+
+<?php
+
+if($_POST) {
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $message = $_POST["message"];
+
+    cleanupName($name);
+    cleanupEmail($email);
+    cleanupMessage($message);
+}
+
+function cleanupName($name) {
+    if(empty($name)) {
+        echo "please fill in your name";
+    } else {
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+        echo "thank you for filling in your name";
+    }
+}
+
+function cleanupEmail($email) {
+    if(empty($email)) {
+        echo "please fill in your email";
+    } else {
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        echo "email is clean";
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "email is valid";
+        } else {
+         echo "email is not valid";
+        }
+    }
+}
+
+function cleanupMessage($message) {
+    if(empty($message)) {
+        echo "please fill in a message";
+    } else {
+        $message = filter_var($message, FILTER_SANITIZE_STRING);
+        echo "message is clean";
+    }
+}
+
+?>
 
 <h2>Contact Form</h2>
 
@@ -91,6 +77,15 @@ function cleanupMessage($message) {
         <input type="submit" id="submit" value="submit" />
     </p>
 </form>
+
+<?php
+
+if($_POST) {
+    echo "<h2>Thanks for your message $name</h2>";
+    echo "We will read your message, saying: $message, and we will get in touch with you by responding to $email";
+}
+
+?>
     
 
 </body>
