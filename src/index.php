@@ -1,34 +1,62 @@
-<?php 
+<?php
 
-print_r($_POST);
+if($_POST) {
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $message = $_POST["message"];
+    $formcontent = "From: $name \n Email: $email \n Message: $message";
+    $recipient = "tinevancorenland@gmail.com";
+    $subject = "Contact Form - $name";
 
-// declare variables, sanitize and validate
+    cleanupName($name);
+    cleanupEmail($email);
+    cleanupMessage($message);
 
-$name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-
-$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-
-if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo "This cleaned email address is considered valid.";
-} else {
-	echo "This cleaned email address is not valid. Sorry. xoxo.";
+    // sendMail();
 }
 
-$message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
+function cleanupName($name) {
+    if($name !="") {
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+        echo "thank you for filling in your name";
+    } else {
+        echo "please fill in your name";
+    }
+}
 
-//https://www.w3schools.com/php/php_form_validation.asp
+function cleanupEmail($email) {
+    if($email != "") {
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        echo "email is clean";
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo "email is valid";
+        } else {
+         echo "email is not valid";
+        }
+    } else {
+        echo "please fill in your email";
+    }
+}
 
+function cleanupMessage($message) {
+    if($message != "") {
+        $message = filter_var($message, FILTER_SANITIZE_STRING);
+        echo "message is clean";
+    } else {
+        echo "please fill in your message";
+    }
+}
 
-// if all fields are filled in, send the info to my email
-
-// $formcontent= "From: $name \n Email: $email \n Message: $message";
-// $recipient = "tinevancorenland@gmail.com";
-// $subject = "Contact Form";
-// $mailheader = "From: $email \r\n";
-// mail($recipient, $subject, $formcontent, $mailheader) or die("Error!");
-// echo "Thank you for your message!";
+// function sendMail(){
+//     if(mail("tinevancorenland@gmail.com", "contact form", $message)) {
+//         echo "thank you for your message";
+//     } else {
+//         echo "try again and again and again";
+//     }
+// }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,16 +83,15 @@ $message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
         <label for="email">Email</label>
     </p>	
         
-    <p class="text">
-        <textarea name="text"></textarea>
+    <p class="message">
+        <textarea name="message" id="message"></textarea>
     </p>
             
     <p class="submit">
-        <input type="submit" value="Send" />
+        <input type="submit" id="submit" value="submit" />
     </p>
 </form>
     
 
 </body>
 </html>
-
