@@ -20,7 +20,7 @@ Because your client would like you to make him a website with a few pages. One o
 
 
 ## Self-Evaluation Criteria
-- [ ] When one submits the form, you receive an email with the form content to my email address
+- [x] When one submits the form, you receive an email with the form content to my email address
 - [x] Most PHP code is above the html doctype line
 - [x] All PHP variable names are explicit and consistently named
 - [x] PHP contents as little comments as possible, but as much as necessary

@@ -1,3 +1,10 @@
+<?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,37 +32,62 @@ function cleanupName($name, $email, $message, $contactFormInfo) {
         echo "please fill in your name";
     } else {
         $name = filter_var($name, FILTER_SANITIZE_STRING);
-        cleanupEmail($email, $message, $contactFormInfo);
+        cleanupEmail($name, $email, $message, $contactFormInfo);
     }
 }
 
-function cleanupEmail($email, $message, $contactFormInfo) {
+function cleanupEmail($name, $email, $message, $contactFormInfo) {
     if(empty($email)) {
         echo "please fill in your email <br>";
     } else {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            cleanupMessage($message, $contactFormInfo);
+            cleanupMessage($name, $email, $message, $contactFormInfo);
         } else {
             echo "please fill in a correct email <br>";
         }
     }
 }
 
-function cleanupMessage($message, $contactFormInfo) {
+function cleanupMessage($name, $email, $message, $contactFormInfo) {
     if(empty($message)) {
         echo "please fill in a message <br>";
     } else {
         $message = filter_var($message, FILTER_SANITIZE_STRING);
-        sendMail($contactFormInfo);
+        sendMail($name, $email, $message, $contactFormInfo);
     }
 }
 
-function sendMail($contactFormInfo) {
-    if(mail("some@from.address", "contact form", $contactFormInfo)) {
-        echo "Email is sent <br>";
-    } else {
-        echo "<h2> Cannot send email </h2><br>";
+function sendMail($name, $email, $message, $contactFormInfo) {
+
+    require 'vendor/autoload.php';
+
+    $mail = new PHPMailer(true);
+
+    try {
+        //Server settings
+        $mail->isSMTP();                                            // Set mailer to use SMTP
+        $mail->Host       = 'smtp.mailtrap.io';                     // Specify main and backup SMTP servers
+        $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+        $mail->Username   = 'a9afcc8b165ae6';                       // SMTP username
+        $mail->Password   = '2ae8a76456568e';                       // SMTP password
+        $mail->SMTPSecure = 'tls';                                  // Enable TLS encryption, `ssl` also accepted
+        $mail->Port       =  25;                                    // TCP port to connect to
+
+        //Recipients
+        $mail->setFrom($email);
+        $mail->addAddress('tinevancorenland@gmail.com');      
+
+        // Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = 'contact form '.$name;
+        $mail->Body    = $contactFormInfo;
+        $mail->AltBody = $contactFormInfo;
+
+        $mail->send();
+        echo '<h2> Message sent! </h2>';
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
 
