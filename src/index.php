@@ -3,21 +3,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/style.css">
-    <title>contact form</title>
-</head>
-<body>
-
-<?php
-
 if (isset($_POST["submit"])) {
     $name = $_POST["name"];
     $email = $_POST["email"];
@@ -92,6 +77,17 @@ function sendMail($name, $email, $message, $contactFormInfo) {
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/style.css">
+    <title>contact form</title>
+</head>
+<body>
 
 <h2>Contact Form</h2>
 
