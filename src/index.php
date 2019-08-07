@@ -15,52 +15,47 @@ if($_POST) {
     $name = $_POST["name"];
     $email = $_POST["email"];
     $message = $_POST["message"];
-    $contactFormInfo = "Name: $name \n Email: $email \n Message: $message";
+    $contactFormInfo = "Name: $name <br> Email: $email <br> Message: $message";
 
-    cleanupName($name);
-    cleanupEmail($email);
-    cleanupMessage($message);
-
-    sendMail($contactFormInfo);
+    cleanupName($name, $email, $message, $contactFormInfo);
 }
 
-function cleanupName($name) {
+function cleanupName($name, $email, $message, $contactFormInfo) {
     if(empty($name)) {
         echo "please fill in your name";
     } else {
         $name = filter_var($name, FILTER_SANITIZE_STRING);
-        echo "thank you for filling in your name \n";
+        cleanupEmail($email, $message, $contactFormInfo);
     }
 }
 
-function cleanupEmail($email) {
+function cleanupEmail($email, $message, $contactFormInfo) {
     if(empty($email)) {
-        echo "please fill in your email \n";
+        echo "please fill in your email <br>";
     } else {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        echo "thank you for filling in your email \n";
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "email is correct \n";
+            cleanupMessage($message, $contactFormInfo);
         } else {
-            echo "email is not valid \n";
+            echo "please fill in a correct email <br>";
         }
     }
 }
 
-function cleanupMessage($message) {
+function cleanupMessage($message, $contactFormInfo) {
     if(empty($message)) {
-        echo "please fill in a message";
+        echo "please fill in a message <br>";
     } else {
         $message = filter_var($message, FILTER_SANITIZE_STRING);
-        echo "message is clean";
+        sendMail($contactFormInfo);
     }
 }
 
 function sendMail($contactFormInfo) {
-    if(mail("some@from.address", "contact form", $message)) {
-        echo "great succes";
+    if(mail("some@from.address", "contact form", $contactFormInfo)) {
+        echo "Email is sent <br>";
     } else {
-        echo "wrong wrong wrong";
+        echo "<h2> Cannot send email </h2><br>";
     }
 }
 
@@ -92,8 +87,9 @@ function sendMail($contactFormInfo) {
 <?php
 
 if($_POST) {
-    echo "<h2>Thanks for your message $name</h2>";
-    echo "We will read your message, saying: $message, and we will get in touch with you by responding to $email";
+    echo "<br><h2>Thanks for contacting us $name</h2>";
+    echo "We will read your message, saying: <br><br> ' $message ' <br><br> 
+    We will get in touch with you by responding to $email.";
 }
 
 ?>
