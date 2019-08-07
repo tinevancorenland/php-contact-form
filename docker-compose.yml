@@ -7,8 +7,6 @@ services:
             - ./src:/var/www/html/
         ports:
             - "8000:80"
-        environment:
-            sendmail_path: /usr/bin/env catchmail -f some@from.address
     mysql:
         image: mysql:5
         restart: always

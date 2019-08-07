@@ -15,16 +15,13 @@ if($_POST) {
     $name = $_POST["name"];
     $email = $_POST["email"];
     $message = $_POST["message"];
+    $contactFormInfo = "Name: $name \n Email: $email \n Message: $message";
 
     cleanupName($name);
     cleanupEmail($email);
     cleanupMessage($message);
 
-    if(mail("some@from.address", "contact form", $message)) {
-        echo "great succes";
-    } else {
-        echo "wrong wrong wrong";
-    }
+    sendMail($contactFormInfo);
 }
 
 function cleanupName($name) {
@@ -32,20 +29,20 @@ function cleanupName($name) {
         echo "please fill in your name";
     } else {
         $name = filter_var($name, FILTER_SANITIZE_STRING);
-        echo "thank you for filling in your name";
+        echo "thank you for filling in your name \n";
     }
 }
 
 function cleanupEmail($email) {
     if(empty($email)) {
-        echo "please fill in your email";
+        echo "please fill in your email \n";
     } else {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        echo "email is clean";
+        echo "thank you for filling in your email \n";
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            echo "email is valid";
+            echo "email is correct \n";
         } else {
-            echo "email is not valid";
+            echo "email is not valid \n";
         }
     }
 }
@@ -56,6 +53,14 @@ function cleanupMessage($message) {
     } else {
         $message = filter_var($message, FILTER_SANITIZE_STRING);
         echo "message is clean";
+    }
+}
+
+function sendMail($contactFormInfo) {
+    if(mail("some@from.address", "contact form", $message)) {
+        echo "great succes";
+    } else {
+        echo "wrong wrong wrong";
     }
 }
 
