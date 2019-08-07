@@ -17,7 +17,9 @@ Because your client would like you to make him a website with a few pages. One o
 1. (bonus) Backend: Use third-party dependencies (php classes)
 1. (bonus) backend : Use of an external SMTP server to send emails
 
+## Looks like 
 
+![](Printscreen.png)
 
 ## Self-Evaluation Criteria
 - [x] When one submits the form, you receive an email with the form content to my email address
