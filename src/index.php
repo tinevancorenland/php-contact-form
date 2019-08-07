@@ -85,7 +85,7 @@ function sendMail($name, $email, $message, $contactFormInfo) {
         $mail->AltBody = $contactFormInfo;
 
         $mail->send();
-        echo '<h2> Message sent! </h2>';
+        echo '<h2> Message sent! Thanks for contacting us.</h2>';
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
@@ -115,17 +115,6 @@ function sendMail($name, $email, $message, $contactFormInfo) {
         <input type="submit" id="submit" value="submit" />
     </p>
 </form>
-
-<?php
-
-if($_POST) {
-    echo "<br><h2>Thanks for contacting us $name</h2>";
-    echo "We will read your message, saying: <br><br> ' $message ' <br><br> 
-    We will get in touch with you by responding to $email.";
-}
-
-?>
-    
 
 </body>
 </html>
